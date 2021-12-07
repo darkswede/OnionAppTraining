@@ -12,13 +12,13 @@ namespace OnionAppTraining.Core.Domain
         public string FullName { get; protected set; }
         public DateTime CreatedAt { get; protected set; }
 
-        public User(string email, string password, string salt, string username)//TODO weryfikacje
+        public User(string email, string password, string username, string salt)//TODO weryfikacje
         {
             Id = Guid.NewGuid();
-            Email = email;
+            Email = email.ToLowerInvariant();
             Password = password;
-            Salt = salt;
             UserName = username;
+            Salt = salt;
             CreatedAt = DateTime.UtcNow;
         }
     }
