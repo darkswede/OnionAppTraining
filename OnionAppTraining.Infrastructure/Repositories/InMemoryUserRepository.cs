@@ -21,6 +21,8 @@ namespace OnionAppTraining.Infrastructure.Repositories
 
         public async Task<User> GetByEmailAsync(string email) => await Task.FromResult(_users.FirstOrDefault(x => x.Email == email.ToLowerInvariant()));
 
+        public async Task<User> GetByUsernameAsync(string username) => await Task.FromResult(_users.FirstOrDefault(x => x.UserName == username));
+
         public async Task<IEnumerable<User>> GetAllAsync() => await Task.FromResult(_users);
 
         public async Task AddAsync(User user)

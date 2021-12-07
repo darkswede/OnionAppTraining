@@ -9,6 +9,7 @@ namespace OnionAppTraining.Core.Repositories
     {
         public Task<User> GetById(Guid id);
         public Task<User> GetByEmailAsync(string email);
+        public Task<User> GetByUsernameAsync(string username);
         public Task<IEnumerable<User>> GetAllAsync();
         public Task AddAsync(User user);
         public Task UpdateAsync(User user);
