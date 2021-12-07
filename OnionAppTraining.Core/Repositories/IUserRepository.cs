@@ -1,16 +1,17 @@
 ﻿using OnionAppTraining.Core.Domain;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OnionAppTraining.Core.Repositories
 {
     public interface IUserRepository
     {
-        public User GetById(Guid id);
-        public User GetByEmail(string email);
-        public IEnumerable<User> GetAll();
-        public void Add(User user);
-        public void Update(User user);
-        public void Remove(Guid id);
+        public Task<User> GetById(Guid id);
+        public Task<User> GetByEmailAsync(string email);
+        public Task<IEnumerable<User>> GetAllAsync();
+        public Task AddAsync(User user);
+        public Task UpdateAsync(User user);
+        public Task RemoveAsync(Guid id);
     }
 }

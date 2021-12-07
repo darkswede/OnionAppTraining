@@ -1,10 +1,11 @@
 ﻿using OnionAppTraining.Infrastructure.DTO;
+using System.Threading.Tasks;
 
 namespace OnionAppTraining.Infrastructure.Services
 {
     public interface IUserService
     {
-        public UserDTO GetByEmail(string email);
-        public void Register(string email, string userName, string password);
+        public Task<UserDTO> GetByEmailAsync(string email);
+        public Task RegisterAsync(string email, string userName, string password);
     }
 }
