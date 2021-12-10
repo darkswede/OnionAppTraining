@@ -1,6 +1,6 @@
 ﻿namespace OnionAppTraining.Infrastructure.Commands
 {
-    interface ICommand
+    public interface ICommand
     {
     }
 }

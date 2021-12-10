@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnionAppTraining.Infrastructure.Commands;
 using OnionAppTraining.Infrastructure.Commands.User;
 using OnionAppTraining.Infrastructure.Services;
 using System.Threading.Tasks;
 
 namespace OnionAppTraining.Api.Controllers
 {
-    [Route("{controller}")]
-    public class UserController : Controller
+    public class UserController : ApiControllerBase
     {
         private readonly IUserService _userService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ICommandDispatcher commandDispatcher) : base(commandDispatcher)
         {
             _userService = userService;
         }
@@ -28,9 +28,10 @@ namespace OnionAppTraining.Api.Controllers
         }
 
         [HttpPost]
+        [Route("{user}")]
         public async Task<IActionResult> Post([FromBody]CreateUser command)
         {
-            await _userService.RegisterAsync(command.Email, command.Password, command.Username);
+            await CommandDispatcher.DispatchAsync(command);
 
             return Created($"user/{command.Email}", new object());
         }
