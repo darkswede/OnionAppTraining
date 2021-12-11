@@ -17,8 +17,4 @@
     <ProjectReference Include="..\OnionAppTraining.Core\OnionAppTraining.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
 </Project>

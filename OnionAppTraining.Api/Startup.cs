@@ -17,7 +17,7 @@ namespace OnionAppTraining.Api
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public IContainer ApplicationContainer { get; protected set; }
+        public IContainer ApplicationContainer { get; private set; }
 
         public Startup(IConfiguration configuration)
         {
@@ -34,6 +34,7 @@ namespace OnionAppTraining.Api
             var builder = new ContainerBuilder();
             builder.Populate(services);
             builder.RegisterModule<CommandModule>();
+            builder.RegisterModule(new SettingsModule(Configuration));
             ApplicationContainer = builder.Build();
 
             return new AutofacServiceProvider(ApplicationContainer);

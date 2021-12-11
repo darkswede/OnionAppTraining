@@ -2,6 +2,7 @@
 using OnionAppTraining.Infrastructure.Commands;
 using OnionAppTraining.Infrastructure.Commands.User;
 using OnionAppTraining.Infrastructure.Services;
+using OnionAppTraining.Infrastructure.Settings;
 using System.Threading.Tasks;
 
 namespace OnionAppTraining.Api.Controllers
@@ -10,7 +11,7 @@ namespace OnionAppTraining.Api.Controllers
     {
         private readonly IUserService _userService;
 
-        public UserController(IUserService userService, ICommandDispatcher commandDispatcher) : base(commandDispatcher)
+        public UserController(IUserService userService, ICommandDispatcher commandDispatcher, GeneralSettings settings) : base(commandDispatcher)
         {
             _userService = userService;
         }
