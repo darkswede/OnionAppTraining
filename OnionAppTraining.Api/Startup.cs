@@ -1,5 +1,4 @@
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -17,27 +16,25 @@ namespace OnionAppTraining.Api
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public IContainer ApplicationContainer { get; private set; }
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
             services.AddRazorPages();
             services.AddScoped<IUserRepository, InMemoryUserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddSingleton(AutoMapperConfig.Initialize());
+        }
 
-            var builder = new ContainerBuilder();
-            builder.Populate(services);
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
             builder.RegisterModule<CommandModule>();
             builder.RegisterModule(new SettingsModule(Configuration));
-            ApplicationContainer = builder.Build();
-
-            return new AutofacServiceProvider(ApplicationContainer);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
@@ -61,7 +58,6 @@ namespace OnionAppTraining.Api
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
-            lifetime.ApplicationStopped.Register(() => ApplicationContainer.Dispose());
         }
     }
 }
