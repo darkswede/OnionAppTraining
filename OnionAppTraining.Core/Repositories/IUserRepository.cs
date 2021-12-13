@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace OnionAppTraining.Core.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository
     {
         public Task<User> GetById(Guid id);
         public Task<User> GetByEmailAsync(string email);

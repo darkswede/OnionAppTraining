@@ -4,12 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OnionAppTraining.Core.Repositories;
-using OnionAppTraining.Infrastructure.IoC.Modules;
-using OnionAppTraining.Infrastructure.Mappers;
-using OnionAppTraining.Infrastructure.Repositories;
-using OnionAppTraining.Infrastructure.Services;
-using System;
+using OnionAppTraining.Infrastructure.IoC;
 
 namespace OnionAppTraining.Api
 {
@@ -26,15 +21,11 @@ namespace OnionAppTraining.Api
         {
             services.AddControllers();
             services.AddRazorPages();
-            services.AddScoped<IUserRepository, InMemoryUserRepository>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddSingleton(AutoMapperConfig.Initialize());
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule<CommandModule>();
-            builder.RegisterModule(new SettingsModule(Configuration));
+            builder.RegisterModule(new ContainerModule(Configuration));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)

@@ -1,23 +1,20 @@
 ﻿using Autofac;
-using OnionAppTraining.Infrastructure.Commands;
+using OnionAppTraining.Infrastructure.Services;
 using System.Reflection;
 
 namespace OnionAppTraining.Infrastructure.IoC.Modules
 {
-    public class CommandModule : Autofac.Module
+    public class ServiceModule : Autofac.Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            var assembly = typeof(ContainerModule)
+            var assembly = typeof(ServiceModule)
                 .GetTypeInfo()
                 .Assembly;
 
             builder.RegisterAssemblyTypes(assembly)
-                .AsClosedTypesOf(typeof(ICommandHandler<>))
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<CommandDispatcher>()
-                .As<ICommandDispatcher>()
+                .Where(x => x.IsAssignableTo<Iservice>())
+                .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
         }
     }
