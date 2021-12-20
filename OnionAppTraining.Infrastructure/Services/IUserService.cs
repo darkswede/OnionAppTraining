@@ -7,5 +7,6 @@ namespace OnionAppTraining.Infrastructure.Services
     {
         public Task<UserDTO> GetByEmailAsync(string email);
         public Task RegisterAsync(string email, string userName, string password);
+        public Task LoginAsync(string email, string password);
     }
 }

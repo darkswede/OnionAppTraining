@@ -12,11 +12,13 @@ namespace OnionAppTraining.Infrastructure.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IEncrypter _encrypter;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IEncrypter encrypter, IMapper mapper)
         {
             _userRepository = userRepository;
+            _encrypter = encrypter;
             _mapper = mapper;
         }
 
@@ -40,9 +42,28 @@ namespace OnionAppTraining.Infrastructure.Services
             ValidatePassword(password);
             await ValidateUsername(username);
 
-            var salt = Guid.NewGuid().ToString("N");
-            user = new User(email, password, username, salt);
+            var salt = _encrypter.GetSalt(password);
+            var hash = _encrypter.GetHash(password, salt);
+            user = new User(email, hash, username, salt);
             await _userRepository.AddAsync(user);
+        }
+
+        public async Task LoginAsync(string email, string password)
+        {
+            var user = await _userRepository.GetByEmailAsync(email);
+            if (user == null)
+            {
+                throw new Exception("Invalid Credentials");
+            }
+
+            var salt = _encrypter.GetSalt(password);
+            var hash = _encrypter.GetHash(password, salt);
+            if (user.Password == hash)
+            {
+                return;
+            }
+
+            throw new Exception("Invalid Credentials");
         }
 
         private static string ValidateEmail(string email)

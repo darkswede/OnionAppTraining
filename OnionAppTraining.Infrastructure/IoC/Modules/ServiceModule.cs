@@ -16,6 +16,10 @@ namespace OnionAppTraining.Infrastructure.IoC.Modules
                 .Where(x => x.IsAssignableTo<Iservice>())
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<Encrypter>()
+                .As<IEncrypter>()
+                .SingleInstance();
         }
     }
 }
