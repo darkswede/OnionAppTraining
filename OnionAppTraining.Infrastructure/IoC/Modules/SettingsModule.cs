@@ -5,7 +5,7 @@ using OnionAppTraining.Infrastructure.Settings;
 
 namespace OnionAppTraining.Infrastructure.IoC.Modules
 {
-    public class SettingsModule : Autofac.Module
+    public class SettingsModule : Module
     {
         private readonly IConfiguration _configuration;
 
@@ -17,6 +17,8 @@ namespace OnionAppTraining.Infrastructure.IoC.Modules
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterInstance(_configuration.GetSettings<GeneralSettings>())
+                .SingleInstance();
+            builder.RegisterInstance(_configuration.GetSettings<JwtSettings>())
                 .SingleInstance();
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnionAppTraining.Infrastructure.Commands;
 using OnionAppTraining.Infrastructure.Commands.User;
 using OnionAppTraining.Infrastructure.Services;
@@ -15,6 +16,7 @@ namespace OnionAppTraining.Api.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [HttpGet("{email}")]
         public async Task<IActionResult> Get(string email)
         {

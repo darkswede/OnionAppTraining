@@ -1,10 +1,15 @@
 using Autofac;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using OnionAppTraining.Infrastructure.IoC;
+using OnionAppTraining.Infrastructure.Settings;
+using System;
+using System.Text;
 
 namespace OnionAppTraining.Api
 {
@@ -21,6 +26,30 @@ namespace OnionAppTraining.Api
         {
             services.AddControllers();
             services.AddRazorPages();
+            var jwtSection = Configuration.GetSection("JwtSettings");
+            services.Configure<JwtSettings>(jwtSection);
+            var jwtSettings = jwtSection.Get<JwtSettings>();
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(jwtSettings.Key)),
+                ValidIssuer = jwtSettings.Issuer,
+                ValidateAudience = true,
+                RequireExpirationTime = false,
+                ValidateLifetime = true
+            };
+            services.AddAuthentication(x => 
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(cfg =>
+            {
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
+                cfg.TokenValidationParameters = tokenValidationParameters;
+            });
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -43,6 +72,7 @@ namespace OnionAppTraining.Api
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();                 
             app.UseEndpoints(endpoints =>
             {
