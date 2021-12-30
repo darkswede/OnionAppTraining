@@ -26,6 +26,7 @@ namespace OnionAppTraining.Api
         {
             services.AddControllers();
             services.AddRazorPages();
+            services.AddMemoryCache();
             services.AddAuthorization(x => x.AddPolicy("admin", p => p.RequireRole("admin")));
             var jwtSection = Configuration.GetSection("JwtSettings");
             services.Configure<JwtSettings>(jwtSection);

@@ -15,15 +15,6 @@ namespace OnionAppTraining.Api.Controllers
             _jwtHandler = jwtHandler;
         }
 
-        [HttpGet]
-        [Route("token")]
-        public IActionResult GetToken()
-        {
-            var token = _jwtHandler.CreateToken("testUser1@gmail.com", "admin");
-
-            return Json(token);
-        }
-
         [HttpPut]
         [Route("{password}")]
         public async Task<IActionResult> Put([FromBody] ChangeUserPassowrd command)

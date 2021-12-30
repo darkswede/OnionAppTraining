@@ -16,7 +16,6 @@ namespace OnionAppTraining.Api.Controllers
             _userService = userService;
         }
 
-        [Authorize(Policy = "admin")]
         [HttpGet("{email}")]
         public async Task<IActionResult> Get(string email)
         {
