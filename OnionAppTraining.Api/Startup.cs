@@ -26,6 +26,7 @@ namespace OnionAppTraining.Api
         {
             services.AddControllers();
             services.AddRazorPages();
+            services.AddAuthorization(x => x.AddPolicy("admin", p => p.RequireRole("admin")));
             var jwtSection = Configuration.GetSection("JwtSettings");
             services.Configure<JwtSettings>(jwtSection);
             var jwtSettings = jwtSection.Get<JwtSettings>();
@@ -34,7 +35,7 @@ namespace OnionAppTraining.Api
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(jwtSettings.Key)),
                 ValidIssuer = jwtSettings.Issuer,
-                ValidateAudience = true,
+                ValidateAudience = false,
                 RequireExpirationTime = false,
                 ValidateLifetime = true
             };

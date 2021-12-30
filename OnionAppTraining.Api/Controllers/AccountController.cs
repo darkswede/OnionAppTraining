@@ -19,7 +19,7 @@ namespace OnionAppTraining.Api.Controllers
         [Route("token")]
         public IActionResult GetToken()
         {
-            var token = _jwtHandler.CreateToken("testUser1@gmail.com", "user");
+            var token = _jwtHandler.CreateToken("testUser1@gmail.com", "admin");
 
             return Json(token);
         }
