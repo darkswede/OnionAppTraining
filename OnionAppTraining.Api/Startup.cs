@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using OnionAppTraining.Infrastructure.IoC;
+using OnionAppTraining.Infrastructure.Services;
 using OnionAppTraining.Infrastructure.Settings;
 using System;
 using System.Text;
@@ -52,6 +53,16 @@ namespace OnionAppTraining.Api
                 cfg.SaveToken = true;
                 cfg.TokenValidationParameters = tokenValidationParameters;
             });
+            //var generalSection = Configuration.GetSection("GeneralSettings");
+            //services.Configure<GeneralSettings>(generalSection);
+            //var generalSettings = generalSection.Get<GeneralSettings>();
+            //if (generalSettings.SeedData)
+            //{
+            //    var dataInitializerSection = Configuration.GetSection("IDataInitializer");
+            //    services.Configure<IDataInitializer>(dataInitializerSection);
+            //    var dataInitializer = dataInitializerSection.Get<IDataInitializer>();
+            //    dataInitializer.SeedAsync();
+            //}
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -71,6 +82,12 @@ namespace OnionAppTraining.Api
                 app.UseHsts();
             }
 
+            var generalSettings = app.ApplicationServices.GetService<GeneralSettings>();
+            if (generalSettings.SeedData)
+            {
+                var dataInitializer = app.ApplicationServices.GetService<IDataInitializer>();
+                dataInitializer.SeedAsync();
+            }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();

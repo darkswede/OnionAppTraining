@@ -17,17 +17,17 @@ namespace OnionAppTraining.Test.Integration.Controllers
         private readonly TestServer _server;
         private readonly HttpClient _client;
 
-        public UserControllerTests()
-        {
-            _server = new TestServer(new WebHostBuilder()
-                .UseStartup<Startup>());
-            _client = _server.CreateClient();
-        }
+        //public UserControllerTests()
+        //{
+        //    _server = new TestServer(new WebHostBuilder()
+        //        .UseStartup<Startup>());
+        //    _client = _server.CreateClient();
+        //}
 
         [Fact]
         public async Task Handle_WhenValidDataProvided_ShouldReturnUser()
         {
-            var email = "testUser1@gmail.com";
+            var email = "user1@gmail.com";
 
             var user = await GetUserAsync(email);
 

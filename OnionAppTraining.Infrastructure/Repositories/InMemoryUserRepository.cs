@@ -9,13 +9,7 @@ namespace OnionAppTraining.Infrastructure.Repositories
 {
     public class InMemoryUserRepository : IUserRepository
     {
-        private static ISet<User> _users = new HashSet<User>
-        {
-            new User("testUser1@gmail.com", "secret1", "user1", "salt1"),
-            new User("testUser2@gmail.com", "secret2", "user2", "salt2"),
-            new User("testUser3@gmail.com", "secret3", "user3", "salt3"),
-            new User("testUser4@gmail.com", "secret4", "user4", "salt4")
-        };
+        private static ISet<User> _users = new HashSet<User>();
 
         public async Task<User> GetById(Guid id) => await Task.FromResult(_users.SingleOrDefault(x => x.Id == id));
 

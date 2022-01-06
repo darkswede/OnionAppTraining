@@ -31,7 +31,7 @@ namespace OnionAppTraining.Infrastructure.Services
             return _mapper.Map<User, UserDTO>(user);
         }
 
-        public async Task RegisterAsync(string email, string password, string username)
+        public async Task RegisterAsync(Guid guid, string email, string password, string role, string username)
         {
             var user = await _userRepository.GetByEmailAsync(ValidateEmail(email));
             if (user != null)
@@ -44,7 +44,7 @@ namespace OnionAppTraining.Infrastructure.Services
 
             var salt = _encrypter.GetSalt(password);
             var hash = _encrypter.GetHash(password, salt);
-            user = new User(email, hash, username, salt);
+            user = new User(guid, email, hash, role, username, salt);
             await _userRepository.AddAsync(user);
         }
 
