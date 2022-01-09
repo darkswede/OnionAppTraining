@@ -3,6 +3,7 @@ using OnionAppTraining.Core.Domain;
 using OnionAppTraining.Core.Repositories;
 using OnionAppTraining.Infrastructure.DTO;
 using System;
+using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -29,6 +30,12 @@ namespace OnionAppTraining.Infrastructure.Services
             var user = await _userRepository.GetByEmailAsync(validatedEmail);
 
             return _mapper.Map<User, UserDTO>(user);
+        }
+        public async Task<IEnumerable<UserDTO>> GetAllUsers()
+        {
+            var users = await _userRepository.GetAllAsync();
+
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(users);
         }
 
         public async Task RegisterAsync(Guid guid, string email, string password, string role, string username)

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OnionAppTraining.Infrastructure.Commands;
 using OnionAppTraining.Infrastructure.Commands.User;
 using OnionAppTraining.Infrastructure.Services;
@@ -14,6 +13,14 @@ namespace OnionAppTraining.Api.Controllers
         public UserController(IUserService userService, ICommandDispatcher commandDispatcher) : base(commandDispatcher)
         {
             _userService = userService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var users = await _userService.GetAllUsers();
+
+            return Json(users);
         }
 
         [HttpGet("{email}")]
