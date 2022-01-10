@@ -10,6 +10,6 @@ namespace OnionAppTraining.Infrastructure.Services
         Task<DriverDTO> GetDriverByIdAsync(Guid userID);
         Task<IEnumerable<DriverDTO>> GetAllDrivers();
         Task CreateAsync(Guid userID);
-        Task SetVehicleAsync(Guid userId, string brand, string name, int seats);
+        Task SetVehicleAsync(Guid userId, string brand, string name);
     }
 }

@@ -37,7 +37,7 @@ namespace OnionAppTraining.Infrastructure.Services
                 _logger.LogTrace($"created new user: {username}");
 
                 tasks.Add(_driverService.CreateAsync(userId));
-                tasks.Add(_driverService.SetVehicleAsync(userId, "LADA", "no LADA", 2));
+                tasks.Add(_driverService.SetVehicleAsync(userId, "LADA", "no LADA"));
                 _logger.LogTrace($"created new driver: {username}");
             }
 

@@ -7,5 +7,10 @@ namespace OnionAppTraining.Infrastructure.Commands.Drivers
     {
         public Guid UserId { get; set; }
         public Vehicle Vehicle { get; set; }
+        public class DriverVehicle
+        {
+            public string Brand { get; set; }
+            public string Name { get; set; }
+        }
     }
 }
