@@ -1,4 +1,5 @@
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,6 +18,7 @@ namespace OnionAppTraining.Api
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        public ILifetimeScope AutofacContainer { get; private set; }
 
         public Startup(IConfiguration configuration)
         {
@@ -81,6 +83,8 @@ namespace OnionAppTraining.Api
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+
+            AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
             var generalSettings = app.ApplicationServices.GetService<GeneralSettings>();
             if (generalSettings.SeedData)
