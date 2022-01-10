@@ -2,7 +2,7 @@
 
 namespace OnionAppTraining.Infrastructure.Services
 {
-    public interface IDataInitializer : Iservice
+    public interface IDataInitializer
     {
         Task SeedAsync();
     }
