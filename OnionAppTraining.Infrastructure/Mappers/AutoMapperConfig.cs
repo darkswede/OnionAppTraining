@@ -11,6 +11,9 @@ namespace OnionAppTraining.Infrastructure.Mappers
             {
                 configuration.CreateMap<User, UserDTO>();
                 configuration.CreateMap<Driver, DriverDTO>();
+                configuration.CreateMap<Driver, DriverDetailsDTO>();
+                configuration.CreateMap<Vehicle, VehicleDTO>();
+                configuration.CreateMap<Route, RouteDTO>();
             })
             .CreateMapper();
     }

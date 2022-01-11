@@ -23,11 +23,11 @@ namespace OnionAppTraining.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task<DriverDTO> GetDriverByIdAsync(Guid userID)
+        public async Task<DriverDetailsDTO> GetDriverByIdAsync(Guid userID)
         {
             var driver = await _driverRepository.GetByIdAsync(userID);
 
-            return _mapper.Map<Driver, DriverDTO>(driver);
+            return _mapper.Map<Driver, DriverDetailsDTO>(driver);
         }
         public async Task<IEnumerable<DriverDTO>> GetAllDrivers()
         {
