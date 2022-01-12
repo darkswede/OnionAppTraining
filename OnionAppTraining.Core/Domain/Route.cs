@@ -10,12 +10,11 @@ namespace OnionAppTraining.Core.Domain
         public double Distance { get; protected set; }
         public DateTime UpdatedAt { get; set; }
 
-        protected Route(string name, Node start, Node end, double distance)
+        protected Route(string name, Node start, Node end)
         {
             Name = name;
             Start = start;
             End = end;
-            Distance = distance;
         }
 
         public void SetName(string name)
@@ -29,6 +28,6 @@ namespace OnionAppTraining.Core.Domain
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public static Route Create(string name, Node start, Node end, double distance) => new Route(name, start, end, distance);
+        public static Route Create(string name, Node start, Node end) => new Route(name, start, end);
     }
 }
