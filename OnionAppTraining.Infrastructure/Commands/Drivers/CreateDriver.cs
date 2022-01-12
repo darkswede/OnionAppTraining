@@ -1,11 +1,9 @@
 ﻿using OnionAppTraining.Core.Domain;
-using System;
 
 namespace OnionAppTraining.Infrastructure.Commands.Drivers
 {
-    public class CreateDriver : ICommand
+    public class CreateDriver : AuthenticatedCommandBase
     {
-        public Guid UserId { get; set; }
         public Vehicle Vehicle { get; set; }
         public class DriverVehicle
         {

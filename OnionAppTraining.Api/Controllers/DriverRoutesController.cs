@@ -17,7 +17,7 @@ namespace OnionAppTraining.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CreateDriverRoute command)
         {
-            await CommandDispatcher.DispatchAsync(command);
+            await DispatchAsync(command);
 
             return NoContent();
         }
@@ -30,7 +30,7 @@ namespace OnionAppTraining.Api.Controllers
             {
                 Name = name
             };
-            await CommandDispatcher.DispatchAsync(command);
+            await DispatchAsync(command);
 
             return NoContent();
         }

@@ -1,10 +1,7 @@
-﻿using System;
-
-namespace OnionAppTraining.Infrastructure.Commands.Drivers
+﻿namespace OnionAppTraining.Infrastructure.Commands.Drivers
 {
-    public class DeleteDriverRoute : ICommand
+    public class DeleteDriverRoute : AuthenticatedCommandBase
     {
-        public Guid UserId { get; set; }
         public string Name { get; set; }
     }
 }

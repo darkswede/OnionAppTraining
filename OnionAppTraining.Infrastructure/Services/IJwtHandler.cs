@@ -5,6 +5,6 @@ namespace OnionAppTraining.Infrastructure.Services
 {
     public interface IJwtHandler
     {
-        JwtDTO CreateToken(string userId, string role); 
+        JwtDTO CreateToken(Guid userId, string role); 
     }
 }

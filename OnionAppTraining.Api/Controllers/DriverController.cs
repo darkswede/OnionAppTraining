@@ -40,7 +40,7 @@ namespace OnionAppTraining.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateDriver command)
         {
-            await CommandDispatcher.DispatchAsync(command);
+            await DispatchAsync(command);
 
             return NoContent();
         }

@@ -38,9 +38,9 @@ namespace OnionAppTraining.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CreateUser command)
         {
-            await CommandDispatcher.DispatchAsync(command);
+            await DispatchAsync(command);
 
-            return Created($"user/{command.Email}", new object());
+            return Created($"user/{command.Email}", null);
         }
     }
 }
