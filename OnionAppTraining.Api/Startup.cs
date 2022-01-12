@@ -86,7 +86,7 @@ namespace OnionAppTraining.Api
 
             AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
-            var generalSettings = AutofacContainer.Resolve<GeneralSettings>();
+            var generalSettings = app.ApplicationServices.GetService<GeneralSettings>();
             if (generalSettings.SeedData)
             {
                 var dataInitializer = AutofacContainer.Resolve<IDataInitializer>();
