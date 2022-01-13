@@ -11,6 +11,7 @@ namespace OnionAppTraining.Core.Domain
 
         public Guid UserId { get; protected set; }
         public string Name { get; protected set; }
+        public double Distance { get; protected set; }
         public Vehicle Vehicle { get; protected set; }
         public DateTime UpdatedAt { get; private set; }
         public IEnumerable<Route> Routes 
@@ -36,7 +37,7 @@ namespace OnionAppTraining.Core.Domain
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void AddRoute(string name, Node start, Node end)
+        public void AddRoute(string name, Node start, Node end, double distance)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -48,7 +49,7 @@ namespace OnionAppTraining.Core.Domain
                 throw new Exception($"route {name} for driver {Name} alredy exist");
             }
 
-            _routes.Add(Route.Create(name, start, end));
+            _routes.Add(Route.Create(name, start, end, distance));
             UpdatedAt = DateTime.UtcNow;
         }
 
