@@ -2,6 +2,7 @@
 using OnionAppTraining.Core.Domain;
 using OnionAppTraining.Core.Repositories;
 using OnionAppTraining.Infrastructure.DTO;
+using OnionAppTraining.Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,26 +28,22 @@ namespace OnionAppTraining.Infrastructure.Services
         {
             var driver = await _driverRepository.GetByIdAsync(userID);
 
-            return _mapper.Map<Driver, DriverDetailsDTO>(driver);
+            return _mapper.Map<DriverDetailsDTO>(driver);
         }
         public async Task<IEnumerable<DriverDTO>> GetAllDrivers()
         {
             var drivers = await _driverRepository.GetAllAsync();
 
-            return _mapper.Map<IEnumerable<Driver>, IEnumerable<DriverDTO>>(drivers);
+            return _mapper.Map<IEnumerable<DriverDTO>>(drivers);
         }
 
-        public async Task CreateAsync(Guid userID)
+        public async Task CreateAsync(Guid userId)
         {
-            var user = await _userRepository.GetById(userID);
-            if(user == null)
-            {
-                throw new Exception($"User with id: {userID} not found");
-            }
-            var driver = await _driverRepository.GetByIdAsync(userID);
+            var user = await _userRepository.GetOrFailAsync(userId);
+            var driver = await _driverRepository.GetByIdAsync(userId);
             if(driver != null)
             {
-                throw new Exception($"Driver with id {userID} alredy exist");
+                throw new Exception($"Driver with id {userId} alredy exist");
             }
 
             driver = new Driver(user);
@@ -55,11 +52,7 @@ namespace OnionAppTraining.Infrastructure.Services
 
         public async Task SetVehicleAsync(Guid userId, string brand, string name)
         {
-            var driver = await _driverRepository.GetByIdAsync(userId);
-            if(driver == null)
-            {
-                throw new Exception($"driver with id: {userId} was not found");
-            }
+            var driver = await _driverRepository.GetOrFailAsync(userId);
 
             var vehicleDetails = await _vehicleProvider.GetAsync(brand, name);
             var vehicle = Vehicle.Create(brand, name, vehicleDetails.Seats);

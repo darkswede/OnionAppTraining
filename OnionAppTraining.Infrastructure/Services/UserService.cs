@@ -2,6 +2,7 @@
 using OnionAppTraining.Core.Domain;
 using OnionAppTraining.Core.Repositories;
 using OnionAppTraining.Infrastructure.DTO;
+using OnionAppTraining.Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
@@ -29,22 +30,18 @@ namespace OnionAppTraining.Infrastructure.Services
 
             var user = await _userRepository.GetByEmailAsync(validatedEmail);
 
-            return _mapper.Map<User, UserDTO>(user);
+            return _mapper.Map<UserDTO>(user);
         }
         public async Task<IEnumerable<UserDTO>> GetAllUsers()
         {
             var users = await _userRepository.GetAllAsync();
 
-            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDTO>>(users);
+            return _mapper.Map<IEnumerable<UserDTO>>(users);
         }
 
         public async Task RegisterAsync(Guid guid, string email, string password, string role, string username)
         {
-            var user = await _userRepository.GetByEmailAsync(ValidateEmail(email));
-            if (user != null)
-            {
-                throw new Exception($"User with email: '{email}' already exist");
-            }
+            var user = await _userRepository.GetOrFailAsync(guid);
 
             ValidatePassword(password);
             await ValidateUsername(username);
