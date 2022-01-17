@@ -11,7 +11,6 @@ namespace OnionAppTraining.Core.Domain
 
         public Guid UserId { get; protected set; }
         public string Name { get; protected set; }
-        public double Distance { get; protected set; }
         public Vehicle Vehicle { get; protected set; }
         public DateTime UpdatedAt { get; private set; }
         public IEnumerable<Route> Routes 

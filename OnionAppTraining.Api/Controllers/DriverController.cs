@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnionAppTraining.Infrastructure.Commands;
 using OnionAppTraining.Infrastructure.Commands.Drivers;
 using OnionAppTraining.Infrastructure.Services;
@@ -37,8 +38,27 @@ namespace OnionAppTraining.Api.Controllers
             return Json(drivers);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateDriver command)
+        {
+            await DispatchAsync(command);
+
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpDelete("me")]
+        public async Task<IActionResult> Delete()
+        {
+            await DispatchAsync(new DeleteDriver());
+
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpPut("me")]
+        public async Task<IActionResult> Put([FromBody]UpdateDriver command)
         {
             await DispatchAsync(command);
 

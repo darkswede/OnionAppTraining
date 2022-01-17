@@ -50,6 +50,12 @@ namespace OnionAppTraining.Infrastructure.Services
             await _driverRepository.AddAsync(driver);
         }
 
+        public async Task DeleteAsync(Guid userId)
+        {
+            var driver = await _driverRepository.GetOrFailAsync(userId);
+            await _driverRepository.DeleteAsync(driver);
+        }
+
         public async Task SetVehicleAsync(Guid userId, string brand, string name)
         {
             var driver = await _driverRepository.GetOrFailAsync(userId);
