@@ -2,6 +2,7 @@
 using OnionAppTraining.Core.Domain;
 using OnionAppTraining.Core.Repositories;
 using OnionAppTraining.Infrastructure.DTO;
+using OnionAppTraining.Infrastructure.Exceptions.Services;
 using OnionAppTraining.Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
@@ -57,7 +58,7 @@ namespace OnionAppTraining.Infrastructure.Services
             var user = await _userRepository.GetByEmailAsync(email);
             if (user == null)
             {
-                throw new Exception("Invalid Credentials");
+                throw new UserServiceExceptions("Invalid Credentials");
             }
 
             var hash = _encrypter.GetHash(password, user.Salt);
@@ -66,7 +67,7 @@ namespace OnionAppTraining.Infrastructure.Services
                 return;
             }
 
-            throw new Exception("Invalid Credentials");
+            throw new UserServiceExceptions("Invalid Credentials");
         }
 
         private static string ValidateEmail(string email)

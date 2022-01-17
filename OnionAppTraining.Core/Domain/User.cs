@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnionAppTraining.Core.Exceptions.UserExceptions;
+using System;
 
 namespace OnionAppTraining.Core.Domain
 {
@@ -22,6 +23,16 @@ namespace OnionAppTraining.Core.Domain
             UserName = username;
             Salt = salt;
             CreatedAt = DateTime.UtcNow;
+        }
+
+        public void SetUsername(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                throw new InvalidUsernameException("Username cannot be empty");
+            }
+
+            UserName = username;
         }
     }
 }

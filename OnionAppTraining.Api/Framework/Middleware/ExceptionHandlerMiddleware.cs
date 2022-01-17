@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using OnionAppTraining.Core.Exceptions;
+using OnionAppTraining.Infrastructure.Exceptions;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -36,7 +38,17 @@ namespace OnionAppTraining.Api.Framework.Middleware
             switch (exception)
             {
                 case Exception ex when exceptionType == typeof(UnauthorizedAccessException):
+                    statusCode = HttpStatusCode.Unauthorized; 
+                    break;
+
+                case DomainException ex when exceptionType == typeof(DomainException):
                     statusCode = HttpStatusCode.Unauthorized;
+                    errorCode = ex.Code;
+                    break;
+
+                case ServiceException ex when exceptionType == typeof(ServiceException):
+                    statusCode = HttpStatusCode.Unauthorized;
+                    errorCode = ex.Code;
                     break;
 
                 default:
