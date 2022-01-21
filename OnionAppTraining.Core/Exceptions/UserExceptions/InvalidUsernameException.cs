@@ -1,4 +1,6 @@
-﻿namespace OnionAppTraining.Core.Exceptions.UserExceptions
+﻿using Passenger.Core.Domain;
+
+namespace OnionAppTraining.Core.Exceptions.UserExceptions
 {
     public class InvalidUsernameException : DomainException
     {
@@ -6,6 +8,6 @@
         {
         }
 
-        public override string Code => ErrorCodes.InvalidUsername;
+        public new string Code => ErrorCodes.InvalidUsername;
     }
 }

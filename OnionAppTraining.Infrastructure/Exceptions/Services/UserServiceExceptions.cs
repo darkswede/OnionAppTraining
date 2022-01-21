@@ -1,4 +1,6 @@
-﻿namespace OnionAppTraining.Infrastructure.Exceptions.Services
+﻿using Passenger.Infrastructure.Exceptions;
+
+namespace OnionAppTraining.Infrastructure.Exceptions.Services
 {
     public class UserServiceExceptions : ServiceException
     {
@@ -6,6 +8,6 @@
         {
         }
 
-        public override string Code => ErrorCodes.InvalidCredentials;
+        public new string Code => ErrorCodes.InvalidCredentials;
     }
 }

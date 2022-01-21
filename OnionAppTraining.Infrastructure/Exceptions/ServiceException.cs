@@ -1,12 +1,33 @@
 ﻿using System;
+using Passenger.Core.Domain;
 
-namespace OnionAppTraining.Infrastructure.Exceptions
+namespace Passenger.Infrastructure.Exceptions
 {
-    public abstract class ServiceException : Exception
+    public class ServiceException : OnionException
     {
-        public abstract string Code { get; }
+        public ServiceException()
+        {
+        }
 
-        public ServiceException(string message) : base(message)
+        public ServiceException(string code) : base(code)
+        {
+        }
+
+        public ServiceException(string message, params object[] args) : base(string.Empty, message, args)
+        {
+        }
+
+        public ServiceException(string code, string message, params object[] args) : base(null, code, message, args)
+        {
+        }
+
+        public ServiceException(Exception innerException, string message, params object[] args)
+            : base(innerException, string.Empty, message, args)
+        {
+        }
+
+        public ServiceException(Exception innerException, string code, string message, params object[] args)
+            : base(string.Format(message, args), innerException)
         {
         }
     }

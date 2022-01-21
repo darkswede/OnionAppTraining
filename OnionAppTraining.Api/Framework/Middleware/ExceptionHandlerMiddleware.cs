@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using OnionAppTraining.Core.Exceptions;
-using OnionAppTraining.Infrastructure.Exceptions;
+using Passenger.Core.Domain;
+using Passenger.Infrastructure.Exceptions;
 using System;
 using System.Net;
 using System.Threading.Tasks;
