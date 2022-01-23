@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using OnionAppTraining.Infrastructure.IoC;
+using OnionAppTraining.Infrastructure.MongoDB;
 using OnionAppTraining.Infrastructure.Services;
 using OnionAppTraining.Infrastructure.Settings;
 using System;
@@ -86,6 +87,7 @@ namespace OnionAppTraining.Api
 
             AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
+            MongoConfigurator.Initialize();
             var generalSettings = app.ApplicationServices.GetService<GeneralSettings>();
             if (generalSettings.SeedData)
             {
