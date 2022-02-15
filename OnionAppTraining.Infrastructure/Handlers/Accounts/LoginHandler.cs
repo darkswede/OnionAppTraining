@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OnionAppTraining.Infrastructure.Handlers.Accounts
 {
-    public class LoginHandler : ICommandHandler<Login>
+    public class LoginHandler : ICommandHandler<LoginCommand>
     {
         private readonly IUserService _userservice;
         private readonly IHandler _handler;
@@ -22,7 +22,7 @@ namespace OnionAppTraining.Infrastructure.Handlers.Accounts
             _memorycache = memoryCache;
         }
 
-        public async Task HandleAsync(Login command) => await _handler
+        public async Task HandleAsync(LoginCommand command) => await _handler
             .RunAsync(async () => await _userservice.LoginAsync(command.Email, command.Password))
             .Next()
             .RunAsync(async () =>

@@ -2,20 +2,22 @@
 using MongoDB.Driver.Linq;
 using OnionAppTraining.Core.Domain;
 using OnionAppTraining.Core.Repositories;
+using OnionAppTraining.Infrastructure.MongoDB;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace OnionAppTraining.Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository, IMongoRepository
+    public class UserRepository : IUserRepository
     {
-        private IMongoCollection<User> Users => _mongoDatabase.GetCollection<User>("Users");
-        private readonly IMongoDatabase _mongoDatabase;
+        private readonly IMongoCollection<User> Users;
 
-        public UserRepository(IMongoDatabase mongoDatabase)
+        public UserRepository(IMongoDBSettings mongoDBSettings)
         {
-            _mongoDatabase = mongoDatabase;
+            var client = new MongoClient(mongoDBSettings.ConnectionString);
+            var database = client.GetDatabase(mongoDBSettings.Database);
+            Users = database.GetCollection<User>(mongoDBSettings.UserCollection);
         }
 
         public async Task<User> GetById(Guid id) => await Users.AsQueryable().FirstOrDefaultAsync(x => x.Id == id);

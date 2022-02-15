@@ -1,16 +1,15 @@
-﻿using Autofac;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace OnionAppTraining.Infrastructure.Commands
 {
     public class CommandDispatcher : ICommandDispatcher
     {
-        public readonly IComponentContext _componentContext;
+        public readonly IServiceProvider _serviceProvider;
 
-        public CommandDispatcher(IComponentContext context)
+        public CommandDispatcher(IServiceProvider serviceProvider)
         {
-            _componentContext = context;
+            _serviceProvider = serviceProvider;
         }
 
         public async Task DispatchAsync<T>(T command) where T : ICommand
@@ -20,8 +19,8 @@ namespace OnionAppTraining.Infrastructure.Commands
                 throw new ArgumentNullException(nameof(command), $"Command '{typeof(T).Name}' can't be null");
             }
 
-            var handler = _componentContext.Resolve<ICommandHandler<T>>();
-            await handler.HandleAsync(command);
+            var service = _serviceProvider.GetService(typeof(ICommandHandler<T>)) as ICommandHandler<T>;
+            await service.HandleAsync(command);
         }
     }
 }

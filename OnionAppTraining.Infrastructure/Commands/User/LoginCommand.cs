@@ -2,7 +2,7 @@
 
 namespace OnionAppTraining.Infrastructure.Commands.User
 {
-    public class Login : ICommand
+    public class LoginCommand : ICommand
     {
         public Guid TokentId { get; set; }
         public string Email { get; set; }

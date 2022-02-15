@@ -3,11 +3,9 @@ using OnionAppTraining.Core.Domain;
 using OnionAppTraining.Core.Repositories;
 using OnionAppTraining.Infrastructure.DTO;
 using OnionAppTraining.Infrastructure.Exceptions.Services;
-using OnionAppTraining.Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace OnionAppTraining.Infrastructure.Services
@@ -18,6 +16,7 @@ namespace OnionAppTraining.Infrastructure.Services
         private readonly IEncrypter _encrypter;
         private readonly IMapper _mapper;
 
+       
         public UserService(IUserRepository userRepository, IEncrypter encrypter, IMapper mapper)
         {
             _userRepository = userRepository;
@@ -42,14 +41,12 @@ namespace OnionAppTraining.Infrastructure.Services
 
         public async Task RegisterAsync(Guid guid, string email, string password, string role, string username)
         {
-            var user = await _userRepository.GetOrFailAsync(guid);
-
             ValidatePassword(password);
             await ValidateUsername(username);
 
             var salt = _encrypter.GetSalt(password);
             var hash = _encrypter.GetHash(password, salt);
-            user = new User(guid, email, hash, role, username, salt);
+            var user = new User(guid, email, hash, role, username, salt);
             await _userRepository.AddAsync(user);
         }
 
@@ -74,7 +71,7 @@ namespace OnionAppTraining.Infrastructure.Services
         {
             if (string.IsNullOrWhiteSpace(email))
             {
-                throw new Exception($"Email: {email} not exist");
+                throw new Exception($"Email cannot be empty");
             }
 
             var trimmed = email.Trim();
@@ -98,12 +95,6 @@ namespace OnionAppTraining.Infrastructure.Services
                 throw new Exception($"Field 'password' cannot be empty");
             }
 
-            var passwordRegex = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
-            if (!passwordRegex.IsMatch(password))
-            {
-                throw new Exception($"Password do not match the rules");
-            }
-
             return password;
         }
 
@@ -112,12 +103,6 @@ namespace OnionAppTraining.Infrastructure.Services
             if (string.IsNullOrWhiteSpace(username))
             {
                 throw new Exception($"Field 'username' cannot be empty");
-            }
-
-            var userNameRegex = new Regex(@"^.{6,}$");
-            if (!userNameRegex.IsMatch(username))
-            {
-                throw new Exception($"Username do not match the rules");
             }
 
             var user = await _userRepository.GetByUsernameAsync(username);

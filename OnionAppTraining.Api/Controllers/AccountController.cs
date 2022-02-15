@@ -17,7 +17,7 @@ namespace OnionAppTraining.Api.Controllers
 
         [HttpPut]
         [Route("{password}")]
-        public async Task<IActionResult> Put([FromBody] ChangeUserPassowrd command)
+        public async Task<IActionResult> Put([FromBody] ChangeUserPassowrdCommand command)
         {
             await DispatchAsync(command);
 

@@ -16,6 +16,7 @@ namespace OnionAppTraining.Infrastructure.Services
         private readonly IVehicleProvider _vehicleProvider;
         private readonly IMapper _mapper;
 
+
         public DriverService(IDriverRepository driverRepository, IUserRepository userRepository, IVehicleProvider vehicleProvider, IMapper mapper)
         {
             _driverRepository = driverRepository;

@@ -17,7 +17,7 @@ namespace OnionAppTraining.Api.Controllers
             _memoryCache = memoryCache;
         }
 
-        public async Task<IActionResult> Post([FromBody] Login command)
+        public async Task<IActionResult> Post([FromBody] LoginCommand command)
         {
             command.TokentId = Guid.NewGuid();
             await DispatchAsync(command);
